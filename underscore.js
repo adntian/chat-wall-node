@@ -120,6 +120,7 @@
   // External wrapper for our callback generator. Users may customize
   // `_.iteratee` if they want additional predicate/iteratee shorthand styles.
   // This abstraction hides the internal-only argCount argument.
+  // 一个重要的内部函数用来生成可应用到集合中每个元素的回调， 返回想要的结果 - 无论是等式，任意回调，属性匹配，或属性访问。 
   _.iteratee = builtinIteratee = function(value, context) {
     return cb(value, context, Infinity);
   };
