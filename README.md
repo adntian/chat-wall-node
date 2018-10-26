@@ -26,6 +26,20 @@
 - [ ] 签到墙
 - [ ] 抽奖
 
+# 最终目标
+
+1、用node.js构建一个连接pc和小程序的签到上墙系统。[地址在这里](https://github.com/leesipeng/chat-wall-node)
+
+2、利用mpvue做一个扫码签到、群聊、发送弹幕、抽奖结果查询等功能的小程序。[地址在这里](https://github.com/leesipeng/chat-wall-mpvue)
+
+3、如果时间来的及，会出一些其他版本。
+
+。。。更新中 敬请期待
+
+# 部分截图
+<img src="https://github.com/leesipeng/chat-wall-mpvue/screenshot/pc.jpg" width="619" height="365"/>
+<img src="https://github.com/leesipeng/chat-wall-mpvue/screenshot/phone.jpg" width="365" height="619"/>
+
 ## 有问题
 
 Welcome PR or Issue！
