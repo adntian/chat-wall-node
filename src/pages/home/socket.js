@@ -1,10 +1,16 @@
 (function ($) {
-    var host = "ws://localhost:8181/";
+    var host = "ws://localhost:10000/";
     websocket = new WebSocket(host);
 
     // 链接打开
     websocket.onopen = function (res) {
         console.log("连接服务器成功。");
+        websocket.send(JSON.stringify({
+            user: {
+                nickName: '大屏幕'
+            },
+            type: 'JOIN',
+        }))
     };
     
     // 连接关闭
@@ -19,12 +25,13 @@
      * @param {接收的消息对象} data 
      */
     websocket.onmessage = function (data) {
+        console.log(data)
         console.log('收到服务器内容：' + data.data);
         
-        if (data.data.indexOf("messageType") !== -1) {
+        if (data.data.indexOf("type") !== -1) {
             var msgData = JSON.parse(data.data)
-
-            switch (msgData.messageType) {
+            console.log(msgData)
+            switch (msgData.type) {
                 case 'JOIN':// 加入
                     danmu(msgData);
                     break;
@@ -34,7 +41,7 @@
                 case 'SIGN':// 签到
                     signIn(msgData);
                     break;
-                case 'CHAT':// 聊天
+                case 'text':// 聊天
                     danmu(msgData);
                     break;
             
@@ -55,13 +62,13 @@
      */
     function danmu(data) {
         $('body').barrager({
-            img: data.user.avatarUrl, //图片 
-            info: data.message, //文字 
+            img: data.msgAvatarUrl, //图片 
+            info: data.content, //文字 
             // href: 'http://www.yaseng.org', //链接 
             close: false, //显示关闭按钮 
             speed: 8, //延迟,单位秒,默认8
             bottom: 200, //距离底部高度,单位px,默认随机 
-            color: str2hex(data.user.nickName), //颜色,默认白色 
+            color: str2hex(data.msgNickName), //颜色,默认白色 
             old_ie_color: '#000000', //ie低版兼容色,不能与网页背景相同,默认黑色 
         });
     }

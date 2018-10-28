@@ -37,8 +37,8 @@
 。。。更新中 敬请期待
 
 # 部分截图
-<img src="https://github.com/leesipeng/chat-wall-mpvue/screenshot/pc.jpg" width="619" height="365"/>
-<img src="https://github.com/leesipeng/chat-wall-mpvue/screenshot/phone.jpg" width="365" height="619"/>
+<img src="https://github.com/leesipeng/chat-wall-mpvue/blob/master/screenshot/pc.jpg" width="619" height="365"/>
+<img src="https://github.com/leesipeng/chat-wall-mpvue/blob/master/screenshot/phone.jpg" width="365" height="619"/>
 
 ## 有问题
 
