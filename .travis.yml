@@ -25,17 +25,22 @@ before_install:
 #  - git clone https://github.com/leesipeng/hexo-theme-even.git themes/even
 
 install:
-  - npm install # 安装 package.json 中的插件
+  # - npm install # 安装 package.json 中的插件
 
 script:
   # - hexo clean
   # - hexo generate
 
 addons:
+  apt:
+      packages:
+      - sshpass
   ssh_known_hosts: 101.132.35.8
-  
+
 after_success:
-  - ssh root@101.132.35.8 -p 22 'cd /usr/local/src/ && git pull origin master'
+  - export SSHPASS=$DEPLOY_PASS
+  - sshpass -e ssh  -o stricthostkeychecking=no root@101.132.35.8 "sh ./deploy-to-vps.sh"
+  # - ssh root@101.132.35.8 -p 22 'cd /usr/local/src/chat-wall-node && git pull'
   # - tar -jcf chat-wall-node.tar.bz2 * # 打包并压缩代码
   # - scp chat-wall-node.tar.bz2 root@101.132.35.8:~/ # 复制到生产服务器上
   # - ssh root@101.132.35.8 'mkdir -p chat-wall-node && tar -jxf chat-wall-node.tar.bz2 -C chat-wall-node' # 解压
