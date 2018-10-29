@@ -1,6 +1,6 @@
 (function ($) {
     
-    var host = "ws://localhost:10000/";
+    var host = "wss://chat.llllll.xyz";
     websocket = new WebSocket(host);
 
     // 链接打开

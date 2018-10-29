@@ -1,11 +1,16 @@
-const http = require('http');
+const https = require('https');
 const express = require('express');
 const WebSocket = require('ws');
+const fs = require('fs');
 const xssFilters = require('xss-filters');
 const bodyParser = require('body-parser');
 
 const app = express();
-const server = http.createServer(app);
+const options = {
+    key: fs.readFileSync('./chat.llllll.xyz_nginx/chat.llllll.xyz.key'),
+    cert: fs.readFileSync('./chat.llllll.xyz_nginx/chat.llllll.xyz.crt')
+}
+const server = new https.createServer(options, app);
 const wss = new WebSocket.Server({ server });
 
 app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
