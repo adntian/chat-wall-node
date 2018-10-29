@@ -1,6 +1,6 @@
 (function ($) {
     
-    var host = "wss://chat.llllll.xyz";
+    var host = "wss://chat.llllll.xyz/socket.io";
     websocket = new WebSocket(host);
 
     // 链接打开
