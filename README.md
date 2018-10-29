@@ -2,7 +2,7 @@
 
 项目主要分3部分
 1、websocket服务 -wsServer
-2、api服务 -apiServer 
+2、api服务 -express
 3、pc端页面 -src 
 
 # 目标功能
@@ -11,7 +11,7 @@
 - [x] 启动websocket服务 -- 完成
 - [x] 文本消息处理 -- 完成
 
-> apiServer (api服务 数据库使用mysql)
+> express (api服务 数据库使用mysql)
 - [ ] 签到接口
 - [ ] 登录接口
 - [ ] 获取成员列表

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp serve"
+    "dev": "gulp serve",
+    "build": "gulp build",
+    "server": "node ./wsServer.js"
   },
   "author": "",
   "license": "ISC",

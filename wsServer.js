@@ -21,10 +21,31 @@ require("./controllers/route/route")(app);
 /*
 * 小程序端连接后 会发送userInfo 发送login
 */
-wss.on('connection', function connection(socket) {
+wss.on('connection', function connection(socket, req) {
     //监听用户发布聊天内容
     console.log("有新客户端连接!");
-    socket.send(JSON.stringify({ type: 'login', userInfo: {} }))
+
+    // 构造客户端对象
+    var newclient = {
+        socket: socket,
+        name: false
+    };
+
+    console.log(req.url)
+    let index = req.url.indexOf('=');
+    console.log(index);
+    if(index != -1) {
+        let appInfoStr = decodeURI((req.url).substr(index + 1))
+        let appInfo = JSON.parse(appInfoStr)
+        console.log(appInfoStr)
+        console.log(appInfo.nickName)
+
+
+        // socket.send(JSON.stringify({ type: 'login', appInfo: appInfo }))
+    }
+    // socket.send(JSON.stringify({ type: 'login', content: '23',timestamp: Date.now(), appInfo: { userId: 1,} }))
+    
+    
 
     
     socket.on('message', function incoming(data) {
@@ -32,30 +53,41 @@ wss.on('connection', function connection(socket) {
         console.log(data)
         var data = data && JSON.parse(data)
         console.log(data)
-        var user = data.user || {}
 
-        // Broadcast to everyone else.
-        wss.clients.forEach(function each(client) {
-            if (client !== socket && client.readyState === WebSocket.OPEN) {
-                if (data.type == 'text') {
-                    let timeStr = getMyTime(Date.now());
-                    let sendObj = {
-                        msgUserId: data.type,//这条消息的拥有者是my
-                        msgNickName: data.nickName,
-                        msgAvatarUrl: data.avatarUrl,
-                        timestamp: Date.now(),
-                        timeStr: timeStr,
-                        content: data.content,
-                        type: data.type
-                    };
-                    client.send(JSON.stringify(sendObj));
+        // 判断是不是第一次连接，以第一条消息作为用户名
+
+        if (!newclient.name) {
+            newclient.name = data.nickName;
+            wss.clients.forEach(function each(client) {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(JSON.stringify({
+                        messageType: 'JOIN',
+                        message: newclient.name + ' 轻轻的我来了~',
+                        createTime: getMyTime(Date.now()),
+                        user: data.nickName
+                    }));
                 }
-                
-            }
-        });
-        
-
-
+            });
+            console.log(newclient.name + "加入聊天。");
+        } else {
+            wss.clients.forEach(function each(client) {
+                if (client !== socket && client.readyState === WebSocket.OPEN) {
+                    if (data.type == 'text') {
+                        let timeStr = getMyTime(Date.now());
+                        let sendObj = {
+                            msgUserId: data.type,//这条消息的拥有者是my
+                            msgNickName: data.nickName,
+                            msgAvatarUrl: data.avatarUrl,
+                            timestamp: Date.now(),
+                            timeStr: timeStr,
+                            content: data.content,
+                            type: data.type
+                        };
+                        client.send(JSON.stringify(sendObj));
+                    }
+                }
+            });
+        }
     });
 
     socket.on('close', function close() {
@@ -64,7 +96,7 @@ wss.on('connection', function connection(socket) {
                 client.send(JSON.stringify({
                     messageType: 'OUT',
                     message: newclient.name + ' 默默的就离开了~',
-                    createTime: getTime(),
+                    createTime: getMyTime(Date.now()),
                     user: {
                         nickName: newclient.name
                     }
@@ -73,44 +105,6 @@ wss.on('connection', function connection(socket) {
             console.log(newclient.name + "离开聊天。");
         });
     });
-    // socket.on('message', function incoming(obj) {
-    //     console.log('socket message!'); 
-    //     //向所有客户端广播发布的消息
-    //     console.log(obj.msg)
-    //     console.log(obj.img)
-    //     if (!obj.msg && !obj.img) {
-    //         return;
-    //     }
-
-    //     // 后端限制字符长度
-    //     const msgLimit = obj.msg.slice(0, 200);
-    //     const mess = {
-    //         username: obj.username,
-    //         src: obj.src,
-    //         msg: xssFilters.inHTMLData(msgLimit),
-    //         img: obj.img, // 防止xss
-    //         roomid: obj.room,
-    //         time: obj.time
-    //     }
-    //     socket.send(mess);
-
-    //     if (obj.img === '') {
-    //         const message = new Message(mess)
-    //         message.save(function (err, mess) {
-    //             if (err) {
-    //                 global.logger.error(err)
-    //             }
-    //             global.logger.info(mess)
-    //         })
-    //     }
-    // });
-
-    // socket.on('login', function (obj) {
-    //     console.log('socket login!');
-    //     if (!obj.name) {
-    //         return;
-    //     }
-    // })
 });
 
 function getMyTime(timestamp) {

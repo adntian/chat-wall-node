@@ -1,4 +1,5 @@
 (function ($) {
+    
     var host = "ws://localhost:10000/";
     websocket = new WebSocket(host);
 
