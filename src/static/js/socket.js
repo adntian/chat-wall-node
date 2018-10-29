@@ -7,10 +7,8 @@
     websocket.onopen = function (res) {
         console.log("连接服务器成功。");
         websocket.send(JSON.stringify({
-            user: {
-                nickName: '大屏幕'
-            },
-            type: 'JOIN',
+            nickName: '大屏幕',
+            type: 'LOGIN',
         }))
     };
     
@@ -22,7 +20,7 @@
     /**
      * 接收消息
      * 通过messageType判断 类型
-     * JOIN加入 OUT退出 SIGN签到 CHAT聊天
+     * LOGIN加入 LOGOUT退出 SIGN签到 CHAT聊天
      * @param {接收的消息对象} data 
      */
     websocket.onmessage = function (data) {
@@ -33,10 +31,10 @@
             var msgData = JSON.parse(data.data)
             console.log(msgData)
             switch (msgData.type) {
-                case 'JOIN':// 加入
+                case 'LOGIN':// 加入
                     danmu(msgData);
                     break;
-                case 'OUT':// 退出
+                case 'LOGOUT':// 退出
                     danmu(msgData);
                     break;
                 case 'SIGN':// 签到
@@ -63,13 +61,13 @@
      */
     function danmu(data) {
         $('body').barrager({
-            img: data.msgAvatarUrl, //图片 
+            img: data.avatarUrl, //图片 
             info: data.content, //文字 
             // href: 'http://www.yaseng.org', //链接 
             close: false, //显示关闭按钮 
             speed: 8, //延迟,单位秒,默认8
             bottom: 200, //距离底部高度,单位px,默认随机 
-            color: str2hex(data.msgNickName), //颜色,默认白色 
+            color: str2hex(data.nickName), //颜色,默认白色 
             old_ie_color: '#000000', //ie低版兼容色,不能与网页背景相同,默认黑色 
         });
     }

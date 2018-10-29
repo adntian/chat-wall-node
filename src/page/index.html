@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hi上墙</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/animate.css/3.7.0/animate.min.css">
+    <link href="https://cdn.staticfile.org/fullPage.js/2.9.3/jquery.fullpage.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/danmu.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+</head>
+
+<body>
+
+
+
+
+
+    <div id="fullpage">
+        <!-- 签到页 -->
+        <section class="sign vertical-scrolling">
+            <!-- 生产图片的容器 -->
+            <div id="container"></div>
+
+            <div class="show_info animated" style="display:none;">
+                <div class="info_my">
+                    <img id="show_info_img" src="../static/images/avator.png" />
+                    <div class="info_mem">
+                        <div id="show_info_nickname" class="nickname">昵称</div>
+                        <div class="id">已签到</div>
+                        <!-- <div class="vote">票数：123</div> -->
+                    </div>
+                </div>
+                <div id="show_info_say" class="intro">说点什么呢</div>
+            </div>
+        </section>
+
+        <!-- 抽奖页 -->
+        <section class="lottery vertical-scrolling">
+            <h2>抽奖页</h2>
+        </section>
+    </div>
+
+    <!-- jq插件 cdn -->
+    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/fullPage.js/2.9.3/jquery.fullpage.min.js"></script>
+    <script src="https://cdn.staticfile.org/three.js/97/three.js"></script>
+    <script src="https://cdn.staticfile.org/tween.js/17.2.0/Tween.js"></script>
+
+    <!-- jq插件 -->
+    <script src="../static/js/danmu.js"></script>
+    <script src="../static/js/TrackballControls.js"></script>
+    <script src="../static/js/CSS3DRenderer.js"></script>
+
+    <!-- 初始化fullpage -->
+    <script src="../static/js/fullpage-init.js"></script>
+    <!-- websocket链接 -->
+    <script src="../static/js/socket.js"></script>
+    <!-- 生成默认图片 3d效果 -->
+    <script src="../static/js/element.js"></script>
+    <!-- 其他 -->
+    <script src="../static/js/index.js"></script>
+
+</body>
+
+</html>

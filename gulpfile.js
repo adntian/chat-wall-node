@@ -40,14 +40,14 @@ gulp.task('static-image', function () {
 
 // 拷贝 压缩html文件
 gulp.task('html', function () {
-    gulp.src(path.srcPath + 'pages/**/*.html')
+    gulp.src(path.srcPath + 'page/*.html')
         .pipe($.plumber())
-        .pipe(gulp.dest(path.devPath))
+        .pipe(gulp.dest(path.devPath + 'page'))
         .pipe($.htmlmin({
             collapseWhitespace: true,
             removeComments: true
         }))
-        .pipe(gulp.dest(path.prdPath))
+        .pipe(gulp.dest(path.prdPath + 'page'))
         .pipe($.connect.reload());
 });
 

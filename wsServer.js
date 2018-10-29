@@ -10,7 +10,7 @@ const wss = new WebSocket.Server({ server });
 
 app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use(express.static('dist'));
+app.use(express.static('build'));
 require("./controllers/route/route")(app);
 // app.post('/login', (req, res) => {
 
@@ -28,81 +28,74 @@ wss.on('connection', function connection(socket, req) {
     // 构造客户端对象
     var newclient = {
         socket: socket,
-        name: false
+        nickName: false
     };
 
     console.log(req.url)
     let index = req.url.indexOf('=');
-    console.log(index);
+    
+    // 签到
     if(index != -1) {
         let appInfoStr = decodeURI((req.url).substr(index + 1))
         let appInfo = JSON.parse(appInfoStr)
+        newclient.nickName = appInfo.nickName
         console.log(appInfoStr)
         console.log(appInfo.nickName)
 
-
-        // socket.send(JSON.stringify({ type: 'login', appInfo: appInfo }))
+        wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+                console.log('第一次登录')
+                client.send(JSON.stringify({
+                    type: 'LOGIN',
+                    userId: appInfo.userId,//这条消息的拥有者是my
+                    nickName: appInfo.nickName,
+                    avatarUrl: appInfo.avatarUrl,
+                    timestamp: Date.now(),
+                    timeStr: getMyTime(Date.now()),
+                    content: appInfo.nickName + ' 轻轻的我来了~',
+                }));
+            }
+        });
+    }else {
+        newclient.nickName = '大屏幕22222'
     }
-    // socket.send(JSON.stringify({ type: 'login', content: '23',timestamp: Date.now(), appInfo: { userId: 1,} }))
-    
-    
-
     
     socket.on('message', function incoming(data) {
-        console.log('data')
+        console.log('dataStr')
         console.log(data)
         var data = data && JSON.parse(data)
-        console.log(data)
-
-        // 判断是不是第一次连接，以第一条消息作为用户名
-
-        if (!newclient.name) {
-            newclient.name = data.nickName;
-            wss.clients.forEach(function each(client) {
-                if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify({
-                        messageType: 'JOIN',
-                        message: newclient.name + ' 轻轻的我来了~',
-                        createTime: getMyTime(Date.now()),
-                        user: data.nickName
-                    }));
+        // console.log('dataObj')
+        
+        wss.clients.forEach(function each(client) {
+            if (client !== socket && client.readyState === WebSocket.OPEN) {
+                if (data.type == 'text') {
+                    let sendObj = {
+                        userId: data.userId,//这条消息的拥有者是my
+                        nickName: data.nickName,
+                        avatarUrl: data.avatarUrl,
+                        timestamp: Date.now(),
+                        timeStr: getMyTime(Date.now()),
+                        content: data.content,
+                        type: data.type
+                    };
+                    client.send(JSON.stringify(sendObj));
                 }
-            });
-            console.log(newclient.name + "加入聊天。");
-        } else {
-            wss.clients.forEach(function each(client) {
-                if (client !== socket && client.readyState === WebSocket.OPEN) {
-                    if (data.type == 'text') {
-                        let timeStr = getMyTime(Date.now());
-                        let sendObj = {
-                            msgUserId: data.type,//这条消息的拥有者是my
-                            msgNickName: data.nickName,
-                            msgAvatarUrl: data.avatarUrl,
-                            timestamp: Date.now(),
-                            timeStr: timeStr,
-                            content: data.content,
-                            type: data.type
-                        };
-                        client.send(JSON.stringify(sendObj));
-                    }
-                }
-            });
-        }
+            }
+        });
     });
 
     socket.on('close', function close() {
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({
-                    messageType: 'OUT',
-                    message: newclient.name + ' 默默的就离开了~',
-                    createTime: getMyTime(Date.now()),
-                    user: {
-                        nickName: newclient.name
-                    }
+                    type: 'LOGOUT',
+                    content: newclient.nickName + ' 默默的就离开了~',
+                    timeStr: getMyTime(Date.now()),
+                    nickName: newclient.nickName,
+                    timestamp: Date.now(),
                 }));
             }
-            console.log(newclient.name + "离开聊天。");
+            console.log(newclient.nickName + "离开聊天。");
         });
     });
 });
