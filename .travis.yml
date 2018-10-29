@@ -39,10 +39,17 @@ addons:
 
 after_success:
   - export SSHPASS=$DEPLOY_PASS
-  - sshpass -e ssh  -o stricthostkeychecking=no root@101.132.35.8 "sh ./deploy-to-vps.sh"
+  - sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@101.132.35.8 "sh ./deploy-to-vps.sh"
+
+env:
+  global:
+  - secure: vy940I3x4KAFpAUx/HlcFJcb+dcG3mUCZZVwO9/Gy1Ul0/Rph0tupCqOi/o6Ns6Dzp4uSzqFQ0A78VHgEwiYqMes3sC1pKC9KMI74tlwsSpNuZke6p8BADcHKi8BB8BSxzlndSWpwMxlyw7C2N2iedVtxIkCNBUshi9xOckaAKWaEdrphOA6EZ3ENWY17+YRvUh50UieDphhH3YTak+gJclEM25mMLpZPMjYtwIDgXkd69RADMFAvAc3BMjDK+ZkZLM3qe3cbQGxBTHMBZyLK+6egPVAKfdTyRaQAPs1cQ3eurFYyZsADk/M9h0+ibclwDWZ399kjnB/R7lqyx+xnPZCHc0l9D7dc4eLnM9nqBs3imfcbV/GsWzSIhA2Z1TH+HMOO+pECoC/wEPcxaI5PuVeXudx2estrhfx9k0o4FR2irlOMmSn6EkTwn6VMlOfmzzPg0ro2tqWW8R6dJBVbZGu6O0h98SDz2CEXu/OMaZ8pBryItK+gI8Kucyoi7uiYxHs+kGdm6pR0C86DjbIOhxtXUnI8TtNyIxFV6GC91dPtcjMVkmshBIljUIAJgyPE1Z/5IBa2g5vx+5eUkvAXtBIQ+1ate7LhcgdWn+1QtZdfYCogqa7Yfl7QezHTN+wZg6RAA7EGqwgKrUIGk+tsmH9LI+uZoLTE/TdxwHG1CY=
+  - secure: hnJ6agcKZqSqt+htPPeiQdYhkRJXRTDW4egtT3yGdrqH6+qXL/o3kZ2ulMkkE67d8c/s6xS35JhKCfR8ut2qORS24nsgHLqB88sRu1wTLu2flFScfyN7FIarUzx+FKyDxcbYun6tDZw7I8Ye9wwRkDL6VcbeoUMy2hedrRi6Tluie1t4vIFpNxjEYSf36ZzJ2bDp95QSgL2ISUJofrIpmgEB+mPoKnb7MVjVHZCuXA4qRDQEta6OhT0+vwoYO6RrGHuoYD/BX5dkG5tJoZpAdEIqG/L3H8rin2s+GZOE52hQrcQ6jWtUKYuHCBQ9ewUElHJJJazTlElKDO7FxIGkR3L1Dxa+02aaXhojVUDcoweriqN4WC/JniHDA0T4nANjWfY01rUvtctRXAGzVyzI8iz3z1/2bShHB8CVgIyoMvEeGpjhvLOmYWZCs75XZXeYH7mE95wTW7Fdbn2tmMPR1lCBN3h2b5Z2v04DpGcslTgsYlI6ZOrUlR+Xuz+mDvzSsFUCYk/90RZSNVsomPPpSmZj2tCQZZqXdefgmbLIfFF1rZ2wZndub/jp8mcYEmCLsin+1TtgoTPeu5bEd+boFQchuLdlvHiNYNHH8EN9Sw3TcK9h40xOxq0rKo0ZfiVTWZCeXhq0yWdbpOJI75R++8WavwzVI2euRz5G99l2vE4=
+
   # - ssh root@101.132.35.8 -p 22 'cd /usr/local/src/chat-wall-node && git pull'
   # - tar -jcf chat-wall-node.tar.bz2 * # 打包并压缩代码
   # - scp chat-wall-node.tar.bz2 root@101.132.35.8:~/ # 复制到生产服务器上
   # - ssh root@101.132.35.8 'mkdir -p chat-wall-node && tar -jxf chat-wall-node.tar.bz2 -C chat-wall-node' # 解压
   # - ssh root@101.132.35.8 'cd chat-wall-node && pm2 startOrReload pm2.json' # 重启pm2
 # E: Build LifeCycle
+
