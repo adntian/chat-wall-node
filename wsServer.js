@@ -52,7 +52,7 @@ wss.on('connection', function connection(socket, req) {
                     avatarUrl: appInfo.avatarUrl,
                     timestamp: Date.now(),
                     timeStr: getMyTime(Date.now()),
-                    content: appInfo.nickName + ' 轻轻的我来了~',
+                    content: appInfo.nickName + ' 加入群聊~',
                 }));
             }
         });

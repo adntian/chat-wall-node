@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "gulp serve",
     "build": "gulp build",
+    "clean": "gulp clean",
     "server": "node ./wsServer.js"
   },
   "author": "",
