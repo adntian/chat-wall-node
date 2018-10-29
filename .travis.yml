@@ -1,5 +1,6 @@
 language: node_js
-node_js: stable
+node_js:
+  - 8.9.3
 
 # assign build branches
 branches:
@@ -30,8 +31,11 @@ script:
   # - hexo clean
   # - hexo generate
 
+addons:
+  ssh_known_hosts: 101.132.35.8
+  
 after_success:
-  - ssh root@101.132.35.8 -p 22 'cd /usr/local/src/ && git pull'
+  - ssh root@101.132.35.8 -p 22 'cd /usr/local/src/ && git pull origin master'
   # - tar -jcf chat-wall-node.tar.bz2 * # 打包并压缩代码
   # - scp chat-wall-node.tar.bz2 root@101.132.35.8:~/ # 复制到生产服务器上
   # - ssh root@101.132.35.8 'mkdir -p chat-wall-node && tar -jxf chat-wall-node.tar.bz2 -C chat-wall-node' # 解压
