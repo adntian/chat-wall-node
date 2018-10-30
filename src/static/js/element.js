@@ -3,35 +3,98 @@
  */
 
 var personArray = new Array;
-var CurPersonNum = 0;
-
-// 生成虚拟数据 后期根据数据库生成
-for (var i = 0; i < 150; i++) {
-    personArray.push({
-        image: "../static/images/avator.png"
-    });
-}
-
+var personNum = 0;
 
 var table = new Array;
-for (var i = 0; i < personArray.length; i++) {
-    table[i] = new Object();
-    if (i < personArray.length) {
-        table[i] = personArray[i];
-        table[i].src = personArray[i].thumb_image;
-    }
-    table[i].p_x = i % 20 + 1;
-    table[i].p_y = Math.floor(i / 20) + 1;
-}
-
 var camera, scene, renderer;
 var controls;
 
 var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 
-init();
-animate();
+// 获取员工列表 生成对应数量的数据 有头像显示 没有使用默认
+getUserList((data)=> {
+    personArray = data.items;
+    personNum = data.items.length;
+    createTable();
+}, (err) => {
+    console.log(err)
+});
+
+// 轮询员工列表 根据数量 生成随机值 获取已签到用户 设置弹框 展示
+setInterval(() => {
+    getUserList((data) => {
+
+        // 过滤签到的用户
+        let filterArray = data.items.filter((item) => {
+            return item.sign
+        })
+        // 获取随机用户
+        let randomNum = getRandomNum(0, filterArray.length-1)
+        console.log(randomNum)
+        let randomPeople = filterArray[randomNum];
+        console.log(randomPeople)
+
+        // animate 随机入场动画
+        var _in = ['bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp', 'fadeIn', 'fadeInDown', 'fadeInDownBig', 'fadeInLeft', 'fadeInLeftBig', 'fadeInRight', 'fadeInRightBig', 'fadeInUp', 'fadeInUpBig', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'slideInDown', 'slideInLeft', 'slideInRight'];
+        var _out = ['bounceOut', 'bounceOutDown', 'bounceOutLeft', 'bounceOutRight', 'bounceOutUp', 'fadeOut', 'fadeOutDown', 'fadeOutDownBig', 'fadeOutLeft', 'fadeOutLeftBig', 'fadeOutRight', 'fadeOutRightBig', 'fadeOutUp', 'fadeOutUpBig', 'rotateOut', 'rotateOutDownLeft', 'rotateOutDownRight', 'rotateOutUpLeft', 'rotateOutUpRight', 'slideOutDown', 'slideOutLeft', 'slideOutRight'];
+        var rand_in = parseInt(Math.random() * _in.length, 10);
+        var rand_out = parseInt(Math.random() * _out.length, 10);
+
+        // 设置弹框信息
+        $('#show_info_img').attr("src", randomPeople.avatarUrl);
+        $('#show_info_nickname').html(randomPeople.nickName);
+        $('#show_info_say').html(randomPeople.message);
+
+        // 弹框展示
+        $('.show_info').show();
+        $('.show_info').addClass(_in[rand_in]);
+        setTimeout(function () {
+            $('.show_info').removeClass(_in[rand_in]);
+
+            // 更改展示的图片
+            var img = document.getElementsByClassName('element')[randomPeople.employeeid-1].getElementsByTagName('img')[0];
+            img.setAttribute('src', randomPeople.avatarUrl);
+
+            setTimeout(function () {
+                $('.show_info').addClass(_out[rand_out]);
+                setTimeout(function () {
+                    $('.show_info').removeClass(_out[rand_out]);
+                    $('.show_info').hide();
+                }, 1000);
+            }, 2000);
+        }, 1000);
+    }, (err) => {
+        console.log(err)
+    });
+}, 5000);
+
+// 生成虚拟数据 后期根据数据库生成
+function createTable() {
+    // for (var i = 0; i < personNum; i++) {
+    //     personArray.push({
+    //         image: "../static/images/avator.png"
+    //     });
+    // }
+
+
+
+    for (var i = 0; i < personArray.length; i++) {
+        table[i] = new Object();
+        if (i < personArray.length) {
+            table[i] = personArray[i];
+            table[i].src = personArray[i].thumb_image;
+        }
+        table[i].p_x = i % 20 + 1;
+        table[i].p_y = Math.floor(i / 20) + 1;
+    }
+
+
+
+    init();
+    animate();
+}
+
 
 function init() {
 
@@ -49,7 +112,7 @@ function init() {
         element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
 
         var img = document.createElement('img');
-        img.src = table[i].image;
+        img.src = table[i].avatarUrl || "../static/images/avator.png";
         element.appendChild(img);
 
         var object = new THREE.CSS3DObject(element);

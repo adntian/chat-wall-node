@@ -39,7 +39,7 @@ addons:
 
 after_success:
   - export SSHPASS=$DEPLOY_PASS
-  - sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@101.132.35.8 "cd /usr/local/src/chat-wall-node && git pull && npm install"
+  - sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@101.132.35.8 "cd /usr/local/src/chat-wall-node && git pull && pm2 delete all && pm2 start npm -- run publish"
 
 env:
   global:

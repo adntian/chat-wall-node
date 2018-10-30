@@ -100,12 +100,12 @@ gulp.task('clean', function () {
 });
 
 gulp.task('serve', ['build'], function () {
-    $.connect.server({
-        root: [path.devPath],
-        livereload: true,
-        port: 1235
-    });
-    open('http://localhost:1235/home');
+    // $.connect.server({
+    //     root: [path.devPath],
+    //     livereload: true,
+    //     port: 1235
+    // });
+    // open('http://localhost:1235/home');
     gulp.watch(path.srcPath + 'static/js/*', ['static-js']);
     gulp.watch(path.srcPath + 'static/css/*', ['static-css']);
     gulp.watch(path.srcPath + 'static/images/*', ['static-image']);

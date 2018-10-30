@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp serve",
-    "build": "gulp build",
     "clean": "gulp clean",
+    "dev": "gulp clean && gulp serve",
+    "build": "gulp clean && gulp build",
+    "publish": "gulp clean && gulp build && node ./wsServer.js",
     "server": "node ./wsServer.js"
   },
   "author": "",

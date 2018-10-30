@@ -4,6 +4,7 @@ const WebSocket = require('ws');
 const fs = require('fs');
 const xssFilters = require('xss-filters');
 const bodyParser = require('body-parser');
+const config = require('./appConfig');
 
 const app = express();
 const options = {
@@ -114,4 +115,4 @@ function getMyTime(timestamp) {
 //
 // Start the server.
 //
-server.listen(10000, () => console.log('Listening on http://localhost:10000'));
+server.listen(10000, () => console.log(config.environment + '环境启动'));

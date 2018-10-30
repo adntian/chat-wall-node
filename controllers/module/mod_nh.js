@@ -16,6 +16,7 @@ exports.userList = (req, res) => {
 exports.sign = (req, res) => {
     let body = req.body;
     let phone = body.phone;
+    let message = body.message;   // 签到留言
     var criteria = new Criteria();
     let jObject = {};
     criteria.tableName = 'user';
@@ -26,7 +27,8 @@ exports.sign = (req, res) => {
         if(result.items.length) {
             
             let values = {
-                sign: 1
+                sign: 1,
+                message: message,
             };
             DB.update(criteria, values, function (back) {
                 
@@ -59,9 +61,9 @@ exports.login = (req, res) => {
     criteria.condition = 'phone = "' + phone + '"';
 
     let values = {
-        wx_nickName: body.wx_nickName,
-        wx_avatarUrl: body.wx_avatarUrl,
-        wx_gender: body.wx_gender,
+        nickName: body.nickName,
+        avatarUrl: body.avatarUrl,
+        gender: body.gender,
         // wx_openid: body.wx_openid,
     };
 
@@ -78,6 +80,7 @@ exports.login = (req, res) => {
         res.json(jObject);
     });
 };
+
 
 //中奖纪录查询
 exports.prizeQuery = (req, res) => {
