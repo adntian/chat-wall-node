@@ -2,7 +2,7 @@ var online = {
     "environmentName": "生产环境",
     "environment": "online",
     "port": "10000",
-    "host": "",
+    "host": "101.132.35.8",
 };
 
 var local = {
