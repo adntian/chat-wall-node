@@ -21,13 +21,13 @@ if (appConfig.environment == 'local') {
     nhOption = {
         host: appConfig.host,
         port: 3306,
-        user: '',
-        password: '',
+        user: 'root',
+        password: 'Root!!2018',
         connectTimeout: 60 * 60 * 1000,
         aquireTimeout: 60 * 60 * 1000,
         timeout: 60 * 60 * 1000,
         connectionLimit: 10,
-        database: ''
+        database: 'company'
     };
 }
 
