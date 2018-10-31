@@ -6,11 +6,14 @@ module.exports = function (app) {
     // app.post(`/nh/userDel`, nh.userDel);
     // app.post(`/nh/userUpdate`, nh.userUpdate);
     app.post(`/nh/userList`, nh.userList);
-
+    //生成第三方session
+    app.post(`/nh/jscode2session`, nh.jscode2session);
+    //解密微信手机号信息
+    app.post(`/nh/encryptPhoneData`, nh.encryptPhoneData);
     //签到
     app.post(`/nh/sign`, nh.sign);
-    //登录 授权更新信息
-    app.post(`/nh/login`, nh.login);
+    //加入群聊 授权更新信息
+    app.post(`/nh/joinRoom`, nh.joinRoom);
 
     //中奖记录
     app.post(`/nh/prizeDraw`, nh.prizeDraw);

@@ -2,6 +2,8 @@ const Criteria = require('../../mysql/criteria');
 const pool = require('../../mysql/pool').get2018NhConnection;
 const DBTools = require('../../mysql/DBTools');
 const DB = new DBTools(pool);
+const WXBizDataCrypt = require('../tools/WXBizDataCrypt');
+const appConfig = require('../../appConfig');
 
 //员工查询
 exports.userList = (req, res) => {
@@ -12,7 +14,50 @@ exports.userList = (req, res) => {
     });
 };
 
-//签到
+//生成第三方session
+exports.jscode2session = (req, res) => {
+    let jObject = {};
+    let code = req.body.code;
+    let url = 'https://api.weixin.qq.com/sns/jscode2session';
+    let params = {
+        grant_type: 'authorization_code',
+        appid: appConfig.appId,
+        secret: appConfig.appSecret,
+        js_code: code,
+    }
+    needle.request('get', url, params, function (err, resp) {
+        if (!err && resp.statusCode == 200)
+            let data = resp.data;
+            console.log(resp.body);
+            jObject.session_key = data.session_key;
+            jObject.openid = data.openid;
+            jObject.result = true;
+            jObject.msg = '获取session成功';
+            res.json(jObject);
+    });
+};
+
+// 解密手机号信息
+exports.encryptPhoneData = (req, res) => {
+    let jObject = {};
+    let body = req.body;
+    let session_key = body.session_key;
+    let encryptedData = body.encryptedData;
+    let iv = body.iv;
+    let appId = appConfig.appId;
+
+    var pc = new WXBizDataCrypt(appId, session_key);
+    // decrypt_data为解密后的信息
+    var decrypt_data = pc.decryptData(encryptedData, iv);
+    console.log(decrypt_data)
+
+    jObject.phoneNumber = decrypt_data.phoneNumber;
+    jObject.result = true;
+    jObject.msg = '解密成功';
+    res.json(jObject);
+};
+
+//签到 更新签到标志、留言
 exports.sign = (req, res) => {
     let body = req.body;
     let phone = body.phone;
@@ -50,8 +95,8 @@ exports.sign = (req, res) => {
     });
 };
 
-//签到
-exports.login = (req, res) => {
+//加入群聊 更新微信头像等信息
+exports.joinRoom = (req, res) => {
     let body = req.body;
     let phone = body.phone;
     var criteria = new Criteria();
