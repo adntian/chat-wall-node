@@ -16,7 +16,7 @@ var local = {
     "appSecret": 'b417302f68a0107995edbe66e4a467d0',
 };
 
-module.exports = local;
-// module.exports = online;
+// module.exports = local;
+module.exports = online;
 
 
