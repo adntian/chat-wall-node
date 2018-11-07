@@ -24,7 +24,9 @@ function websocket(server) {
          */
         let index = req.url.indexOf('=');
         if (index != -1) {
-            let appInfoStr = decodeURIComponent((req.url).substr(index + 1))
+            let encodeStr =(req.url.substr(index + 1)
+            console.log(encodeStr)
+            let appInfoStr = decodeURIComponent(encodeStr)
             console.log(appInfoStr)
             let appInfo = (appInfoStr && JSON.parse(appInfoStr))
             newclient.nickName = appInfo.nickName
