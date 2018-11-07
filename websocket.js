@@ -78,6 +78,7 @@ function websocket(server) {
                             timestamp: Date.now(),
                             timeStr: getMyTime(Date.now()),
                             content: data.content,
+                            largePic: data.largePic,
                             type: data.type
                         };
                         client.send(JSON.stringify(sendObj));
