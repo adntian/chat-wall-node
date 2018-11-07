@@ -25,14 +25,15 @@ function websocket(server) {
         let index = req.url.indexOf('=');
         if (index != -1) {
             let appInfoStr = decodeURI((req.url).substr(index + 1))
-            let appInfo = appInfoStr && JSON.parse(appInfoStr)
+            console.log(appInfoStr)
+            let appInfo = (appInfoStr && JSON.parse(appInfoStr))
             newclient.nickName = appInfo.nickName
 
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
                     console.log('第一次登录')
 
-                    // 当前用户登录 广播一条消息
+                    // 当前用户登录 广播一条消息
                     client.send(JSON.stringify({
                         type: 'LOGIN',
                         userId: appInfo.userId,//这条消息的拥有者是my
