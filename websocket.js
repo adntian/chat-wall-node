@@ -58,7 +58,18 @@ function websocket(server) {
                 if (client !== socket && client.readyState === WebSocket.OPEN) {
 
                     // 文本消息
-                    if (data.type == 'text') {
+                    if (data.type === 'text') {
+                        let sendObj = {
+                            userId: data.userId,//这条消息的拥有者是my
+                            nickName: data.nickName,
+                            avatarUrl: data.avatarUrl,
+                            timestamp: Date.now(),
+                            timeStr: getMyTime(Date.now()),
+                            content: data.content,
+                            type: data.type
+                        };
+                        client.send(JSON.stringify(sendObj));
+                    }else if(data.type === 'image') {
                         let sendObj = {
                             userId: data.userId,//这条消息的拥有者是my
                             nickName: data.nickName,
