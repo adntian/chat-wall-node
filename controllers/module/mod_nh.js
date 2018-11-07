@@ -106,7 +106,7 @@ exports.joinRoom = (req, res) => {
     criteria.condition = 'phone = "' + phone + '"';
 
     let values = {
-        nickName: body.nickName,
+        nickName: decodeURIComponent(body.nickName),
         avatarUrl: body.avatarUrl,
         gender: body.gender,
         // wx_openid: body.wx_openid,
