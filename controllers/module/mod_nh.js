@@ -4,6 +4,8 @@ const DBTools = require('../../mysql/DBTools');
 const DB = new DBTools(pool);
 const WXBizDataCrypt = require('../tools/WXBizDataCrypt');
 const appConfig = require('../../appConfig');
+const needle = require('needle');
+const wxInfo = require('../../wxInfo');
 
 //员工查询
 exports.userList = (req, res) => {
@@ -21,14 +23,14 @@ exports.jscode2session = (req, res) => {
     let url = 'https://api.weixin.qq.com/sns/jscode2session';
     let params = {
         grant_type: 'authorization_code',
-        appid: appConfig.appId,
-        secret: appConfig.appSecret,
+        appid: wxInfo.appId,
+        secret: wxInfo.appSecret,
         js_code: code,
     }
     needle.request('get', url, params, function (err, resp) {
         if (!err && resp.statusCode == 200)
-            let data = resp.data;
-            console.log(resp.body);
+            var data = JSON.parse(resp.body);
+
             jObject.session_key = data.session_key;
             jObject.openid = data.openid;
             jObject.result = true;
@@ -49,7 +51,6 @@ exports.encryptPhoneData = (req, res) => {
     var pc = new WXBizDataCrypt(appId, session_key);
     // decrypt_data为解密后的信息
     var decrypt_data = pc.decryptData(encryptedData, iv);
-    console.log(decrypt_data)
 
     jObject.phoneNumber = decrypt_data.phoneNumber;
     jObject.result = true;

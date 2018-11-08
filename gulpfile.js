@@ -57,9 +57,9 @@ gulp.task('less', function () {
     gulp.src(path.srcPath + 'pages/**/*.less')
         .pipe($.plumber())
         .pipe($.less())
-        .pipe(gulp.dest(path.devPath))
+        .pipe(gulp.dest(path.devPath + 'static/css'))
         .pipe($.cssmin())
-        .pipe(gulp.dest(path.prdPath))
+        .pipe(gulp.dest(path.prdPath + 'static/css'))
         .pipe($.connect.reload());
 })
 
