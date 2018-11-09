@@ -10,7 +10,14 @@ const wxInfo = require('../../wxInfo');
 //员工查询
 exports.userList = (req, res) => {
     var criteria = new Criteria();
+    var openid = req.body.openid;
     criteria.tableName = 'user';
+
+    // 如果传递openid 根据openid 查询
+    if(openid) {
+        criteria.condition = 'openid = "' + openid + '"';
+    }
+    
     DB.find(criteria, function (result) {
         res.json(result);
     });
@@ -53,7 +60,7 @@ exports.encryptPhoneData = (req, res) => {
     var decrypt_data = pc.decryptData(encryptedData, iv);
 
     jObject.phoneNumber = decrypt_data.phoneNumber;
-    jObject.openId = decrypt_data.openId;
+    jObject.openid = decrypt_data.openid;
     jObject.result = true;
     jObject.msg = '解密成功';
     res.json(jObject);
@@ -77,6 +84,7 @@ exports.sign = (req, res) => {
                 nickName: decodeURIComponent(body.nickName),
                 avatarUrl: body.avatarUrl,
                 gender: body.gender,
+                openid: body.openid,
             };
 
             DB.update(criteria, values, function (back) {
