@@ -3,7 +3,6 @@ const pool = require('../../mysql/pool').get2018NhConnection;
 const DBTools = require('../../mysql/DBTools');
 const DB = new DBTools(pool);
 const WXBizDataCrypt = require('../tools/WXBizDataCrypt');
-const appConfig = require('../../appConfig');
 const needle = require('needle');
 const wxInfo = require('../../wxInfo');
 
@@ -46,14 +45,14 @@ exports.jscode2session = (req, res) => {
     });
 };
 
-// 解密手机号信息
-exports.encryptPhoneData = (req, res) => {
+// 解密信息
+exports.encryptWxData = (req, res) => {
     let jObject = {};
     let body = req.body;
     let session_key = body.session_key;
     let encryptedData = body.encryptedData;
     let iv = body.iv;
-    let appId = appConfig.appId;
+    let appId = wxInfo.appId;
 
     var pc = new WXBizDataCrypt(appId, session_key);
     // decrypt_data为解密后的信息

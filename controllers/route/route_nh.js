@@ -9,7 +9,7 @@ module.exports = function (app) {
     //生成第三方session
     app.post(`/nh/jscode2session`, nh.jscode2session);
     //解密微信手机号信息
-    app.post(`/nh/encryptPhoneData`, nh.encryptPhoneData);
+    app.post(`/nh/encryptWxData`, nh.encryptWxData);
     //签到
     app.post(`/nh/sign`, nh.sign);
 
