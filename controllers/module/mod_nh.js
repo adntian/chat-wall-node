@@ -9,12 +9,12 @@ const wxInfo = require('../../wxInfo');
 //员工查询
 exports.userList = (req, res) => {
     var criteria = new Criteria();
-    var openid = req.body.openid;
+    var openId = req.body.openId;
     criteria.tableName = 'user';
 
-    // 如果传递openid 根据openid 查询
-    if(openid) {
-        criteria.condition = 'openid = "' + openid + '"';
+    // 如果传递openId 根据openId 查询
+    if(openId) {
+        criteria.condition = 'openId = "' + openId + '"';
     }
     
     DB.find(criteria, function (result) {
@@ -38,7 +38,7 @@ exports.jscode2session = (req, res) => {
             var data = JSON.parse(resp.body);
 
         jObject.session_key = data.session_key;
-        jObject.openid = data.openid;
+        jObject.openId = data.openId;
         jObject.result = true;
         jObject.msg = '获取session成功';
         res.json(jObject);
@@ -57,9 +57,10 @@ exports.encryptWxData = (req, res) => {
     var pc = new WXBizDataCrypt(appId, session_key);
     // decrypt_data为解密后的信息
     var decrypt_data = pc.decryptData(encryptedData, iv);
+    
 
     jObject.phoneNumber = decrypt_data.phoneNumber;
-    jObject.openid = decrypt_data.openid;
+    jObject.openId = decrypt_data.openId;
     jObject.result = true;
     jObject.msg = '解密成功';
     res.json(jObject);
@@ -83,7 +84,7 @@ exports.sign = (req, res) => {
                 nickName: decodeURIComponent(body.nickName),
                 avatarUrl: body.avatarUrl,
                 gender: body.gender,
-                openid: body.openid,
+                openId: body.openId,
             };
 
             DB.update(criteria, values, function (back) {
