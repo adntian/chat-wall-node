@@ -12,8 +12,6 @@ module.exports = function (app) {
     app.post(`/nh/encryptPhoneData`, nh.encryptPhoneData);
     //签到
     app.post(`/nh/sign`, nh.sign);
-    //加入群聊 授权更新信息
-    app.post(`/nh/joinRoom`, nh.joinRoom);
 
     //中奖记录
     app.post(`/nh/prizeDraw`, nh.prizeDraw);
