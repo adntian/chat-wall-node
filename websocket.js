@@ -107,10 +107,10 @@ function websocket(server) {
 
         let testContent = [
             Mock.Random.csentence(1, 30),// 中文1-30
-            Random.paragraph(1, 7), // 英文句子
-            Random.cparagraph(1, 5), // 中文文本
-            Random.sentence(1, 10), // 英文单词
-            Random.float(),
+            Mock.Random.paragraph(1, 7), // 英文句子
+            Mock.Random.cparagraph(1, 5), // 中文文本
+            Mock.Random.sentence(1, 10), // 英文单词
+            Mock.Random.float(),
         ]
         /**
          * 测试用 定时广播消息
@@ -119,12 +119,12 @@ function websocket(server) {
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify({
-                        userId: Random.natural(111, 999),//这条消息的拥有者是my
-                        nickName: testContent[Random.natural(0, testContent.length)],
-                        avatarUrl: Random.image(),
+                        userId: Mock.Random.natural(111, 999),//这条消息的拥有者是my
+                        nickName: testContent[Mock.Random.natural(0, testContent.length)],
+                        avatarUrl: Mock.Random.image(),
                         timestamp: Date.now(),
                         timeStr: getMyTime(Date.now()),
-                        content: testContent[Random.natural(0, testContent.length)],
+                        content: testContent[Mock.Random.natural(0, testContent.length)],
                         type: 'text'
                     }));
                 }
