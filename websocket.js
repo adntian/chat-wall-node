@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const xssFilters = require('xss-filters');
+const Mock = require('mockjs')
 
 function websocket(server) {
     const wss = new WebSocket.Server({ server });
@@ -24,7 +25,7 @@ function websocket(server) {
          */
         let index = req.url.indexOf('=');
         if (index != -1) {
-            let encodeStr =req.url.substr(index + 1)
+            let encodeStr = req.url.substr(index + 1)
             let appInfoStr = decodeURIComponent(decodeURIComponent(encodeStr))
             let appInfo = (appInfoStr && JSON.parse(appInfoStr))
             newclient.nickName = appInfo.nickName
@@ -45,8 +46,24 @@ function websocket(server) {
                     }));
                 }
             });
+
+            // 监听客户端关闭事件 广播消息 --只监听小程序连接
+            socket.on('close', function close() {
+                wss.clients.forEach(function each(client) {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                            type: 'LOGOUT',
+                            content: newclient.nickName + ' 默默的就离开了~',
+                            timeStr: getMyTime(Date.now()),
+                            nickName: newclient.nickName,
+                            timestamp: Date.now(),
+                        }));
+                    }
+                    console.log(newclient.nickName + "离开聊天。");
+                });
+            });
         } else {
-            newclient.nickName = '大屏幕22222';
+            newclient.nickName = '大屏幕';
         }
 
         // 监听消息事件
@@ -70,7 +87,7 @@ function websocket(server) {
                             type: data.type
                         };
                         client.send(JSON.stringify(sendObj));
-                    }else if(data.type === 'image') {
+                    } else if (data.type === 'image') {
                         let sendObj = {
                             userId: data.userId,//这条消息的拥有者是my
                             nickName: data.nickName,
@@ -87,21 +104,33 @@ function websocket(server) {
             });
         });
 
-        // 监听客户端关闭事件 广播消息
-        socket.on('close', function close() {
+
+        let testContent = [
+            Mock.Random.csentence(1, 30),// 中文1-30
+            Random.paragraph(1, 7), // 英文句子
+            Random.cparagraph(1, 5), // 中文文本
+            Random.sentence(1, 10), // 英文单词
+            Random.float(),
+        ]
+        /**
+         * 测试用 定时广播消息
+         */
+        setInterval(() => {
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify({
-                        type: 'LOGOUT',
-                        content: newclient.nickName + ' 默默的就离开了~',
-                        timeStr: getMyTime(Date.now()),
-                        nickName: newclient.nickName,
+                        userId: Random.natural(111, 999),//这条消息的拥有者是my
+                        nickName: testContent[Random.natural(0, testContent.length)],
+                        avatarUrl: Random.image(),
                         timestamp: Date.now(),
+                        timeStr: getMyTime(Date.now()),
+                        content: testContent[Random.natural(0, testContent.length)],
+                        type: 'text'
                     }));
                 }
-                console.log(newclient.nickName + "离开聊天。");
             });
-        });
+        }, 1000)
+
     });
 
     // 时间转换函数

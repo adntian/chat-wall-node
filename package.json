@@ -31,6 +31,7 @@
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "express": "^4.16.4",
+    "mockjs": "^1.0.1-beta3",
     "mysql": "^2.16.0",
     "needle": "^2.2.4",
     "ws": "^6.1.0",
