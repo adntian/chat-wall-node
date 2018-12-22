@@ -116,7 +116,7 @@ function websocket(server) {
         /**
          * 测试用 定时广播消息
          */
-        timer = setTimeout(() => {
+        timer = setInterval(() => {
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify({

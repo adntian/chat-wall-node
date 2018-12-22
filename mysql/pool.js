@@ -1,35 +1,19 @@
 //mysql操作模块
 const mysql = require('mysql');
-const appConfig = require('./../appConfig');
+const appConfig = require('../src/static/js/appConfig');
 
 //数据库连接参数设置
-let nhOption = {}
-
-if (appConfig.environment == 'local') {
-    nhOption = {
-        host: appConfig.host,
-        port: 3306,
-        user: 'root',
-        password: 'root',
-        connectTimeout: 60 * 60 * 1000,
-        aquireTimeout: 60 * 60 * 1000,
-        timeout: 60 * 60 * 1000,
-        connectionLimit: 10,
-        database: 'company'
-    };
-} else if (appConfig.environment == 'online') {
-    nhOption = {
-        host: appConfig.host,
-        port: 3306,
-        user: 'root',
-        password: 'Root!!2018',
-        connectTimeout: 60 * 60 * 1000,
-        aquireTimeout: 60 * 60 * 1000,
-        timeout: 60 * 60 * 1000,
-        connectionLimit: 10,
-        database: 'company'
-    };
-}
+let nhOption = {
+    host: appConfig.sqlConfig.host,
+    port: appConfig.sqlConfig.port,
+    user: appConfig.sqlConfig.user,
+    password: appConfig.sqlConfig.password,
+    database: appConfig.sqlConfig.database,
+    connectTimeout: 60 * 60 * 1000,
+    aquireTimeout: 60 * 60 * 1000,
+    timeout: 60 * 60 * 1000,
+    connectionLimit: 10,
+};
 
 let nhPool = mysql.createPool(nhOption);
 //测试数据库是否连接

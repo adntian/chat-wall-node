@@ -1,7 +1,6 @@
 (function ($) {
     
-    // var host = "wss://127.0.0.1:10000";
-    var host = "wss://chat.llllll.xyz/socket.io";
+    var host = config__env.socketUrl;
     websocket = new WebSocket(host);
 
     // 链接打开

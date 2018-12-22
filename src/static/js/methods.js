@@ -1,6 +1,4 @@
-// var apiUrl = 'https://127.0.0.1:10000';
-var apiUrl = 'https://chat.llllll.xyz';
-var apiGetUserList = apiUrl + '/nh/userList'
+var apiGetUserList = config__env.apiUrl + '/nh/userList'
 
 // 生成从minNum到maxNum的随机数
 function getRandomNum(minNum, maxNum) {

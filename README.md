@@ -47,8 +47,24 @@ cd chat-wall-node
 
 npm install  或 yarn(推荐)
 
-npm run dev
+项目依赖数据库 需要安装mysql 使用根目录.sql文件导入 并在配置项设置自己的mysql主机账号密码
 
+本地运行：
+1、修改src/appConfig.js 配置为local并根据自己的需要修改配置
+2、npm run dev
+3、浏览器访问 https://127.0.0.1/page (https://127.0.0.1:443/page)
+4、注意：默认使用的是chat.llllll.xyz的证书 本地访问 url会显示不安全
+
+
+服务器运行：
+1、修改src/appConfig.js 配置为online
+2、修改online配置(服务器、数据库、域名)
+3、修改domain_nginx下的证书为自己的域名证书(阿里云域名可以申请免费的https证书)
+4、根据自己需要配置nginx 我的是服务器本地启动 然后nginx匹配域名转发到服务器10000端口
+5、npm run build 浏览器访问 https://域名/page
+
+配合小程序项目chat-wall-mpvue：
+1、在根目录wxInfo文件中配置小程序appId和appSecret
 ```
 
 
