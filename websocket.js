@@ -4,7 +4,8 @@ const Mock = require('mockjs')
 
 function websocket(server) {
     const wss = new WebSocket.Server({ server });
-
+    let timer = null;
+    if(timer) clearInterval(timer);
     /*
     * 监听socket连接
     */
@@ -115,7 +116,7 @@ function websocket(server) {
         /**
          * 测试用 定时广播消息
          */
-        setInterval(() => {
+        timer = setInterval(() => {
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify({
@@ -129,7 +130,7 @@ function websocket(server) {
                     }));
                 }
             });
-        }, 1000)
+        }, 5000)
 
     });
 

@@ -20,15 +20,14 @@ gulp.task('static-js', function () {
         .pipe(gulp.dest(path.prdPath + 'static/js'))
         .pipe($.connect.reload());
 });
-gulp.task('static-css', function () {
-    gulp.src(path.srcPath + 'static/css/*')
-        .pipe($.plumber())
-        .pipe($.less())
-        .pipe(gulp.dest(path.devPath + 'static/css'))
-        .pipe($.cssmin())
-        .pipe(gulp.dest(path.prdPath + 'static/css'))
-        .pipe($.connect.reload());
-});
+// gulp.task('static-css', function () {
+//     gulp.src(path.srcPath + 'static/css/*.css')
+//         .pipe($.plumber())
+//         .pipe(gulp.dest(path.devPath + 'static/css'))
+//         .pipe($.cssmin())
+//         .pipe(gulp.dest(path.prdPath + 'static/css'))
+//         .pipe($.connect.reload());
+// });
 gulp.task('static-image', function () {
     gulp.src(path.srcPath + 'static/images/*')
         .pipe($.plumber())
@@ -54,7 +53,7 @@ gulp.task('html', function () {
 
 // 编译 压缩less文件
 gulp.task('less', function () {
-    gulp.src(path.srcPath + 'pages/**/*.less')
+    gulp.src(path.srcPath + 'static/css/*.less')
         .pipe($.plumber())
         .pipe($.less())
         .pipe(gulp.dest(path.devPath + 'static/css'))
@@ -86,7 +85,7 @@ gulp.task('image', function () {
 
 gulp.task('build', [
     'static-js',
-    'static-css',
+    // 'static-css',
     'static-image',
     'html',
     'less',
@@ -99,6 +98,11 @@ gulp.task('clean', function () {
         .pipe($.clean());
 });
 
+gulp.task('clean-css', function () {
+    gulp.src('*.css')
+        .pipe($.clean());
+});
+
 gulp.task('serve', ['build'], function () {
     // $.connect.server({
     //     root: [path.devPath],
@@ -107,7 +111,7 @@ gulp.task('serve', ['build'], function () {
     // });
     // open('http://localhost:1235/home');
     gulp.watch(path.srcPath + 'static/js/*', ['static-js']);
-    gulp.watch(path.srcPath + 'static/css/*', ['static-css']);
+    // gulp.watch(path.srcPath + 'static/css/*', ['static-css']);
     gulp.watch(path.srcPath + 'static/images/*', ['static-image']);
     gulp.watch(path.srcPath + 'pages/**/*.html', ['html']);
     gulp.watch(path.srcPath + 'pages/**/*.less', ['less']);
