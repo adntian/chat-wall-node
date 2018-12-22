@@ -10,7 +10,7 @@ if (appConfig.environment == 'local') {
         host: appConfig.host,
         port: 3306,
         user: 'root',
-        password: '123',
+        password: 'root',
         connectTimeout: 60 * 60 * 1000,
         aquireTimeout: 60 * 60 * 1000,
         timeout: 60 * 60 * 1000,

@@ -22,4 +22,4 @@ require("./websocket.js")(server);
 //
 // Start the server.
 //
-server.listen(10000, () => console.log(config.environment + '环境启动'));
+server.listen(config.port, () => console.log(config.environment + '环境启动 端口：' + config.port));

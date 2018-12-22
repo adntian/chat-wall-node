@@ -1,4 +1,4 @@
-# Hi上墙 服务端+pc展示
+# 微信上墙 服务端+pc展示
 
 项目主要分3部分
 1、websocket服务 -wsServer
