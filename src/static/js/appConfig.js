@@ -36,9 +36,9 @@ var local = {
 };
 
 // 本地
-var config__env = local;
+// var config__env = local;
 // 线上
-// var config__env = online;
+var config__env = online;
 
 // 非浏览器环境
 if (typeof process !== 'undefined') {
