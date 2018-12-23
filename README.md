@@ -6,6 +6,10 @@
 2、api服务 -express
 3、pc端页面 -src 
 
+# 部分截图
+![截图1](screenshot/pc-1.jpg)
+![截图2](screenshot/pc-2.jpg)
+
 # 目标功能
 
 > wsServer (websocket服务 兼容小程序使用ws)
@@ -30,10 +34,6 @@
 1、用node.js构建一个连接pc和小程序的签到上墙系统。[地址在这里](https://github.com/leesipeng/chat-wall-node)
 
 2、利用mpvue做一个扫码签到、群聊、发送弹幕、抽奖结果查询等功能的小程序。[地址在这里](https://github.com/leesipeng/chat-wall-mpvue)
-
-# 部分截图
-![截图1](screenshot/pc-1.jpg)
-![截图2](screenshot/pc-2.jpg)
 
 ## 有问题
 
