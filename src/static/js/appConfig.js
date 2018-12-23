@@ -23,11 +23,11 @@ var online = {
 var local = {
   "environmentName": "本地部署环境",
   "environment": "local",
-  "port": 443, //本地公网端口
-  "apiUrl": "https://127.0.0.1",
-  "socketUrl": "wss://127.0.0.1",
+  "port": 10000, //本地公网端口
+  "apiUrl": "https://localhost:10000",
+  "socketUrl": "wss://localhost:10000",
   "sqlConfig" : { //数据库配置
-    "host": "127.0.0.1",
+    "host": "localhost",
     "port": 3306,
     "user": "root",
     "password": "root",
@@ -36,9 +36,9 @@ var local = {
 };
 
 // 本地
-// var config__env = local;
+var config__env = local;
 // 线上
-var config__env = online;
+// var config__env = online;
 
 // 非浏览器环境
 if (typeof process !== 'undefined') {
