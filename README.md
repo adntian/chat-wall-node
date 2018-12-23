@@ -32,8 +32,8 @@
 2、利用mpvue做一个扫码签到、群聊、发送弹幕、抽奖结果查询等功能的小程序。[地址在这里](https://github.com/leesipeng/chat-wall-mpvue)
 
 # 部分截图
-![PC](screenshot/pc.jpg)
-![手机](screenshot/phone.jpg)
+![截图1](screenshot/pc-1.jpg)
+![截图2](screenshot/pc-2.jpg)
 
 ## 有问题
 
