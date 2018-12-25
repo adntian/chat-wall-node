@@ -2,9 +2,9 @@
 > 在线演示：https://chat.llllll.xyz/page
 
 项目主要分3部分
-1、websocket服务 -wsServer
-2、api服务 -express
-3、pc端页面 -src 
+1. websocket服务 -wsServer
+2. api服务 -express
+3. spc端页面 -src 
 
 # 部分截图
 ![截图1](screenshot/pc-1.jpg)
